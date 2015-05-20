@@ -15,7 +15,7 @@
  */
 package com.stormpath.sdk.error.authc;
 
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.resource.ResourceException;
 
 /**
@@ -29,7 +29,7 @@ public class AccessTokenOauthException extends OauthAuthenticationException {
 
     public static final String EXPIRED_ACCESS_TOKEN = "access_token is expired.";
 
-    public AccessTokenOauthException(Error error, String oauthError) {
-        super(error, oauthError);
+    public AccessTokenOauthException(StormpathError stormpathError, String oauthError) {
+        super(stormpathError, oauthError);
     }
 }

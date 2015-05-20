@@ -15,7 +15,7 @@
  */
 package com.stormpath.sdk.impl.error;
 
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.impl.resource.AbstractResource;
 import com.stormpath.sdk.impl.resource.IntegerProperty;
 import com.stormpath.sdk.impl.resource.Property;
@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @since 0.1
  */
-public class DefaultError extends AbstractResource implements Error {
+public class DefaultStormpathError extends AbstractResource implements StormpathError {
 
     static final IntegerProperty STATUS = new IntegerProperty("status");
     static final IntegerProperty CODE = new IntegerProperty("code");
@@ -38,7 +38,7 @@ public class DefaultError extends AbstractResource implements Error {
             STATUS, CODE, MESSAGE, DEV_MESSAGE, MORE_INFO
     );
 
-    public DefaultError(Map<String, Object> body) {
+    public DefaultStormpathError(Map<String, Object> body) {
         super(null, body);
     }
 

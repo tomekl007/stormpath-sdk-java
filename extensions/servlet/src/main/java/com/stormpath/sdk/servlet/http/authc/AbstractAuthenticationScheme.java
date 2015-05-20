@@ -20,7 +20,7 @@ import com.stormpath.sdk.account.AccountStatus;
 import com.stormpath.sdk.api.ApiKey;
 import com.stormpath.sdk.api.ApiKeyStatus;
 import com.stormpath.sdk.application.Application;
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.error.authc.DisabledAccountException;
 import com.stormpath.sdk.error.authc.DisabledApiKeyException;
 import com.stormpath.sdk.error.authc.InvalidApiKeyException;
@@ -63,8 +63,8 @@ public abstract class AbstractAuthenticationScheme implements HttpAuthentication
         return apiKey;
     }
 
-    protected Error newError(final String message) {
-        return new Error() {
+    protected StormpathError newError(final String message) {
+        return new StormpathError() {
             @Override
             public int getStatus() {
                 return 0;

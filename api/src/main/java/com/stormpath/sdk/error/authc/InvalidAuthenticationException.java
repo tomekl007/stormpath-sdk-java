@@ -15,7 +15,7 @@
  */
 package com.stormpath.sdk.error.authc;
 
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.resource.ResourceException;
 
 /**
@@ -25,7 +25,7 @@ import com.stormpath.sdk.resource.ResourceException;
  */
 public class InvalidAuthenticationException extends ResourceException {
 
-    public InvalidAuthenticationException(Error error) {
-        super(error);
+    public InvalidAuthenticationException(StormpathError stormpathError) {
+        super(stormpathError);
     }
 }

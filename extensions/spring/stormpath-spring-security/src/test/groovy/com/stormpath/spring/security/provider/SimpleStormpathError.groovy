@@ -17,7 +17,9 @@
 
 package com.stormpath.spring.security.provider
 
-class SimpleError implements com.stormpath.sdk.error.Error {
+import com.stormpath.sdk.error.StormpathError
+
+class SimpleStormpathError implements StormpathError {
 
     int status
     int code

@@ -29,7 +29,7 @@ import com.stormpath.sdk.impl.cache.DisabledCacheManager;
 import com.stormpath.sdk.impl.ds.api.ApiKeyCachePropertiesFilter;
 import com.stormpath.sdk.impl.ds.api.ApiKeyQueryPropertiesFilter;
 import com.stormpath.sdk.impl.ds.api.ApiKeyResourcePropertiesFilter;
-import com.stormpath.sdk.impl.error.DefaultError;
+import com.stormpath.sdk.impl.error.DefaultStormpathError;
 import com.stormpath.sdk.impl.http.MediaType;
 import com.stormpath.sdk.impl.http.QueryString;
 import com.stormpath.sdk.impl.http.QueryStringFactory;
@@ -967,7 +967,7 @@ public class DefaultDataStore implements InternalDataStore {
                 log.trace("Obtained response body: \n{}", body);
                 mapBody = mapMarshaller.unmarshal(body);
             }
-            DefaultError error = new DefaultError(mapBody);
+            DefaultStormpathError error = new DefaultStormpathError(mapBody);
             throw new ResourceException(error);
         }
 

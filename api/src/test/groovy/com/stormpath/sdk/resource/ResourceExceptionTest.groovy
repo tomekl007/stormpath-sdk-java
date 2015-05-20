@@ -15,6 +15,7 @@
  */
 package com.stormpath.sdk.resource
 
+import com.stormpath.sdk.error.StormpathError
 import org.testng.annotations.Test
 
 import static org.testng.Assert.assertEquals
@@ -28,7 +29,7 @@ class ResourceExceptionTest {
     @Test
     void testDefault() {
 
-        def error = new com.stormpath.sdk.error.Error() {
+        def error = new StormpathError() {
 
             int getStatus() {
                 return 400
@@ -59,8 +60,8 @@ class ResourceExceptionTest {
         assertEquals ex.developerMessage, 'bar'
         assertEquals ex.moreInfo, 'someUrl'
         //Re-enable for Issue #32:
-        //assertSame ex.error, error
-        //assertSame ex.error.message, error.message
+        //assertSame ex.stormpathError, stormpathError
+        //assertSame ex.stormpathError.message, stormpathError.message
     }
 
 

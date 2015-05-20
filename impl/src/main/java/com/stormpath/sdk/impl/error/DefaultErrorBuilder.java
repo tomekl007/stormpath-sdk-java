@@ -15,7 +15,7 @@
  */
 package com.stormpath.sdk.impl.error;
 
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.lang.Assert;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class DefaultErrorBuilder {
     public DefaultErrorBuilder(Integer status) {
         Assert.notNull(status, "status cannot be null.");
         errorProperties = new HashMap<String, Object>();
-        errorProperties.put(DefaultError.STATUS.getName(), status);
+        errorProperties.put(DefaultStormpathError.STATUS.getName(), status);
     }
 
     public static DefaultErrorBuilder status(Integer status) {
@@ -39,29 +39,29 @@ public class DefaultErrorBuilder {
     }
 
     public DefaultErrorBuilder code(Integer code) {
-        this.errorProperties.put(DefaultError.CODE.getName(), code);
+        this.errorProperties.put(DefaultStormpathError.CODE.getName(), code);
         return this;
     }
 
     public DefaultErrorBuilder message(String message) {
-        this.errorProperties.put(DefaultError.MESSAGE.getName(), message);
+        this.errorProperties.put(DefaultStormpathError.MESSAGE.getName(), message);
         return this;
     }
 
     public DefaultErrorBuilder developerMessage(String developerMessage) {
-        this.errorProperties.put(DefaultError.DEV_MESSAGE.getName(), developerMessage);
+        this.errorProperties.put(DefaultStormpathError.DEV_MESSAGE.getName(), developerMessage);
         return this;
     }
 
     public DefaultErrorBuilder moreInfo(String moreInfo) {
-        this.errorProperties.put(DefaultError.MORE_INFO.getName(), moreInfo);
+        this.errorProperties.put(DefaultStormpathError.MORE_INFO.getName(), moreInfo);
         return this;
     }
 
-    public Error build() {
+    public StormpathError build() {
         for (Object value : errorProperties.values()) {
             Assert.notNull(value);
         }
-        return new DefaultError(errorProperties);
+        return new DefaultStormpathError(errorProperties);
     }
 }

@@ -18,7 +18,7 @@ package com.stormpath.sdk.error;
 /**
  * @since 0.1
  */
-public interface Error {
+public interface StormpathError {
 
     int getStatus();
 

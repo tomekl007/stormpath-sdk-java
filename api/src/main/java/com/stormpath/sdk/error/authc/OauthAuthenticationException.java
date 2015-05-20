@@ -15,7 +15,7 @@
  */
 package com.stormpath.sdk.error.authc;
 
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.resource.ResourceException;
 
 /**
@@ -37,8 +37,8 @@ public class OauthAuthenticationException extends ResourceException {
 
     private final String oauthError;
 
-    public OauthAuthenticationException(Error error, String oauthError) {
-        super(error);
+    public OauthAuthenticationException(StormpathError stormpathError, String oauthError) {
+        super(stormpathError);
         this.oauthError = oauthError;
     }
 

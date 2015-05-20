@@ -46,7 +46,7 @@ public interface Group extends Resource, Saveable, Deletable, AccountStore, Exte
      * Sets the group's name, which must be unique among all other groups within a Directory.
      * </p>
      * An attempt to set a name that is in use when creating or saving the group will result in a
-     * {@link com.stormpath.sdk.error.Error Error}
+     * {@link com.stormpath.sdk.error.StormpathError StormpathError}
      *
      * @param name the group's name, which must be unique among all other groups within a Directory.
      * @return this instance for method chaining.

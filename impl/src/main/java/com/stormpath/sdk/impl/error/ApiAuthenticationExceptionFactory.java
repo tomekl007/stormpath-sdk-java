@@ -16,7 +16,7 @@
 package com.stormpath.sdk.impl.error;
 
 import com.stormpath.sdk.account.AccountStatus;
-import com.stormpath.sdk.error.Error;
+import com.stormpath.sdk.error.StormpathError;
 import com.stormpath.sdk.error.authc.DisabledAccountException;
 import com.stormpath.sdk.error.authc.OauthAuthenticationException;
 import com.stormpath.sdk.lang.Classes;
@@ -41,50 +41,50 @@ public class ApiAuthenticationExceptionFactory {
 
     public static ResourceException newApiAuthenticationException(Class<? extends ResourceException> clazz) {
 
-        Error error = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
+        StormpathError stormpathError = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
                 .developerMessage(DEFAULT_DEVELOPER_MESSAGE).message(DEFAULT_CLIENT_MESSAGE).build();
 
-        Constructor<? extends ResourceException> constructor = Classes.getConstructor(clazz, Error.class);
+        Constructor<? extends ResourceException> constructor = Classes.getConstructor(clazz, StormpathError.class);
 
-        return Classes.instantiate(constructor, error);
+        return Classes.instantiate(constructor, stormpathError);
     }
 
     public static DisabledAccountException newDisabledAccountException(AccountStatus accountStatus) {
 
-        Error error = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
+        StormpathError stormpathError = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
                 .developerMessage(DEFAULT_DEVELOPER_MESSAGE).message(DEFAULT_CLIENT_MESSAGE).build();
 
-        return new DisabledAccountException(error, accountStatus);
+        return new DisabledAccountException(stormpathError, accountStatus);
     }
 
     public static ResourceException newApiAuthenticationException(Class<? extends ResourceException> clazz, String message) {
 
-        Error error = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
+        StormpathError stormpathError = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
                 .developerMessage(message).message(DEFAULT_CLIENT_MESSAGE).build();
 
 
         Constructor<? extends ResourceException> constructor = getConstructorFromClass(clazz);
 
-        return Classes.instantiate(constructor, error);
+        return Classes.instantiate(constructor, stormpathError);
     }
 
     public static ResourceException newOauthException(Class<? extends OauthAuthenticationException> clazz, String oauthError) {
 
-        String oauthClientError = "error: " + oauthError;
+        String oauthClientError = "stormpathError: " + oauthError;
 
-        Error error = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
+        StormpathError stormpathError = DefaultErrorBuilder.status(AUTH_EXCEPTION_STATUS).code(AUTH_EXCEPTION_CODE).moreInfo(MORE_INFO)
                 .developerMessage(DEFAULT_DEVELOPER_MESSAGE).message(oauthClientError).build();
 
         Constructor<? extends ResourceException> constructor = getConstructorFromClass(clazz);
 
-        return Classes.instantiate(constructor, error, oauthError);
+        return Classes.instantiate(constructor, stormpathError, oauthError);
     }
 
     private static Constructor<? extends ResourceException> getConstructorFromClass(Class<? extends ResourceException> clazz) {
         if (OauthAuthenticationException.class.isAssignableFrom(clazz)) {
-            return Classes.getConstructor(clazz, Error.class, String.class);
+            return Classes.getConstructor(clazz, StormpathError.class, String.class);
         }
-        return Classes.getConstructor(clazz, Error.class);
+        return Classes.getConstructor(clazz, StormpathError.class);
     }
 
 }

@@ -209,7 +209,7 @@ class StormpathAuthenticationProviderTest {
 
         expect(client.dataStore).andStubReturn(dataStore)
 
-        def error = new SimpleError(status:status, code:code, message: msg, developerMessage: devMsg, moreInfo: moreInfo)
+        def error = new SimpleStormpathError(status:status, code:code, message: msg, developerMessage: devMsg, moreInfo: moreInfo)
 
         expect(dataStore.getResource(eq(appHref), same(Application))).andReturn app
         expect(app.authenticateAccount(anyObject() as AuthenticationRequest)).andThrow(new com.stormpath.sdk.resource.ResourceException(error))

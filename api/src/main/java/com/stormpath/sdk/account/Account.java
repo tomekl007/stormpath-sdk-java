@@ -57,7 +57,7 @@ public interface Account extends Resource, Saveable, Deletable, Extendable {
      * have need of a username, it is best to set the username to equal the {@link #getEmail()}.
      *
      * <p>An attempt to set a username that is in use when creating or saving the account will result in a
-     * {@link com.stormpath.sdk.error.Error Error}</p>
+     * {@link com.stormpath.sdk.error.StormpathError StormpathError}</p>
      *
      * @param username the account's username, which must be unique among all other accounts within a Directory.
      * @return this instance for method chaining.
@@ -75,7 +75,7 @@ public interface Account extends Resource, Saveable, Deletable, Extendable {
      * Sets the account's email address, which must be unique among all other accounts within a Directory.
      *
      * <p>An attempt to set an email that is in use when creating or saving the account will result in a
-     * {@link com.stormpath.sdk.error.Error Error}</p>
+     * {@link com.stormpath.sdk.error.StormpathError StormpathError}</p>
      *
      * @param email the account's email address, which must be unique among all other accounts within a Directory.
      * @return this instance for method chaining.
