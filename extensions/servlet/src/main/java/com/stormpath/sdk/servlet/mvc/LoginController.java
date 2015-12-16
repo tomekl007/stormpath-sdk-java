@@ -26,11 +26,13 @@ import com.stormpath.sdk.servlet.form.DefaultField;
 import com.stormpath.sdk.servlet.form.Field;
 import com.stormpath.sdk.servlet.form.Form;
 import com.stormpath.sdk.servlet.http.Saver;
+import com.stormpath.sdk.servlet.http.UserAgents;
+import com.stormpath.sdk.servlet.mvc.provider.AccountStoreModelFactory;
+import com.stormpath.sdk.servlet.mvc.provider.DefaultAccountStoreModelFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,7 @@ public class LoginController extends FormController {
     private String registerUri;
     private String logoutUri;
     private Saver<AuthenticationResult> authenticationResultSaver;
+    private AccountStoreModelFactory accountStoreModelFactory = new DefaultAccountStoreModelFactory();
     private ErrorModelFactory errorModelFactory = new LoginErrorModelFactory();
 
     public void init() {
@@ -53,6 +56,7 @@ public class LoginController extends FormController {
         Assert.hasText(this.registerUri, "registerUri property cannot be null or empty.");
         Assert.hasText(this.logoutUri, "logoutUri property cannot be null or empty.");
         Assert.notNull(this.authenticationResultSaver, "authenticationResultSaver property cannot be null.");
+        Assert.notNull(this.accountStoreModelFactory, "accountStoreModelFactory cannot be null.");
         Assert.notNull(this.errorModelFactory, "errorModelFactory cannot be null.");
     }
 
@@ -87,6 +91,14 @@ public class LoginController extends FormController {
 
     public void setLogoutUri(String logoutUri) {
         this.logoutUri = logoutUri;
+    }
+
+    public AccountStoreModelFactory getAccountStoreModelFactory() {
+        return accountStoreModelFactory;
+    }
+
+    public void setAccountStoreModelFactory(AccountStoreModelFactory accountStoreModelFactory) {
+        this.accountStoreModelFactory = accountStoreModelFactory;
     }
 
     public ErrorModelFactory getErrorModelFactory() {
@@ -129,13 +141,18 @@ public class LoginController extends FormController {
     @Override
     protected void appendModel(HttpServletRequest request, HttpServletResponse response, Form form, List<String> errors,
                                Map<String, Object> model) {
+
         if (Collections.isEmpty(errors)) {
             //allow factory to populate if necessary:
-            errors = errorModelFactory.toErrors(request, form, null);
+            errors = toErrors(request, form, null);
             if (!Collections.isEmpty(errors)) {
                 model.put("errors", errors);
             }
         }
+
+        //TODO: enable 3rd party login providers:
+        model.put("providers", java.util.Collections.emptyList());
+        model.put("accountStores", getAccountStoreModelFactory().getAccountStores(request));
         model.put("forgotLoginUri", getForgotLoginUri());
         model.put("registerUri", getRegisterUri());
     }
@@ -155,8 +172,9 @@ public class LoginController extends FormController {
             field.setPlaceholder("stormpath.web.login.form.fields." + fieldName + ".placeholder");
             field.setRequired(true);
             field.setType("text");
-            String param = request.getParameter(fieldName);
-            field.setValue(param != null ? param : "");
+
+            String val = getFieldValueResolver().getValue(request, fieldName);
+            field.setValue(val != null ? val : "");
 
             if ("password".equals(fieldName)) {
                 field.setType("password");
@@ -173,7 +191,7 @@ public class LoginController extends FormController {
 
     @Override
     protected List<String> toErrors(HttpServletRequest request, Form form, Exception e) {
-        return errorModelFactory.toErrors(request, form, e);
+        return getErrorModelFactory().toErrors(request, form, e);
     }
 
     @Override
@@ -188,7 +206,7 @@ public class LoginController extends FormController {
         final Account account = getAccount(req);
 
         //simulate a result for the benefit of the 'saveResult' method signature:
-        AuthenticationResult result = new TransientAuthenticationResult(account);
+        final AuthenticationResult result = new TransientAuthenticationResult(account);
         saveResult(req, resp, result);
 
         String next = form.getNext();
@@ -197,6 +215,11 @@ public class LoginController extends FormController {
             next = getNextUri();
         }
 
+        if (UserAgents.get(req).isJsonPreferred()) {
+            return new DefaultViewModel(getView(), java.util.Collections.singletonMap("authenticationResult", result));
+        }
+
+        //otherwise HTML view:
         return new DefaultViewModel(next).setRedirect(true);
     }
 

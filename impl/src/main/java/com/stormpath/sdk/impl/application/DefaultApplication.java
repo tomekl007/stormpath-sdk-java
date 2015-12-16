@@ -414,7 +414,7 @@ public class DefaultApplication extends AbstractExtendableInstanceResource imple
 
     /** @since 0.9 */
     @Override
-    public ApplicationAccountStoreMappingList getApplicationAccountStoreMappings(ApplicationAccountStoreMappingCriteria criteria) {
+    public ApplicationAccountStoreMappingList getAccountStoreMappings(ApplicationAccountStoreMappingCriteria criteria) {
         ApplicationAccountStoreMappingList accountStoreMappings =
             getAccountStoreMappings(); //safe to get the href: does not execute a query until iteration occurs
         return getDataStore().getResource(accountStoreMappings.getHref(), ApplicationAccountStoreMappingList.class, (Criteria<ApplicationAccountStoreMappingCriteria>) criteria);

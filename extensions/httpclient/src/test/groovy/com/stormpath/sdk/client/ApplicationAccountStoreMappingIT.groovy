@@ -195,7 +195,7 @@ class ApplicationAccountStoreMappingIT extends ClientIT {
             app.createAccountStoreMapping(accountStoreMapping)
         }
 
-        def accStrMaps = app.getApplicationAccountStoreMappings(ApplicationAccountStoreMappings.where(ApplicationAccountStoreMappings.listIndex().eq(1)))
+        def accStrMaps = app.getAccountStoreMappings(ApplicationAccountStoreMappings.where(ApplicationAccountStoreMappings.listIndex().eq(1)))
         ApplicationAccountStoreMapping accountStoreMapping = accStrMaps.first()
         AccountStore accountStore = accountStoreMapping.accountStore
         assertNotEquals(accountStore, app.getDefaultAccountStore())
@@ -292,7 +292,7 @@ class ApplicationAccountStoreMappingIT extends ClientIT {
             accountStoreMapping.setDefaultGroupStore(true)     //Should make last one in loop the defaultGroupStore
             app.createAccountStoreMapping(accountStoreMapping)
         }
-        ApplicationAccountStoreMappingList mappings = app.getApplicationAccountStoreMappings(ApplicationAccountStoreMappings.criteria().withAccountStore().withApplication())
+        ApplicationAccountStoreMappingList mappings = app.getAccountStoreMappings(ApplicationAccountStoreMappings.criteria().withAccountStore().withApplication())
         String mappingsString = mappings.toString()
         assertTrue(mappingsString.contains("Directory"))
         assertTrue(mappingsString.contains("name"))

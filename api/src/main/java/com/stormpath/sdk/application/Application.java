@@ -22,7 +22,6 @@ import com.stormpath.sdk.account.AccountList;
 import com.stormpath.sdk.account.AccountCriteria;
 import com.stormpath.sdk.account.PasswordResetToken;
 import com.stormpath.sdk.account.CreateAccountRequest;
-import com.stormpath.sdk.application.AccountStoreHolder;
 import com.stormpath.sdk.api.ApiAuthenticationResult;
 import com.stormpath.sdk.api.ApiKey;
 import com.stormpath.sdk.api.ApiKeyOptions;
@@ -525,11 +524,11 @@ public interface Application extends AccountStoreHolder<Application>, Resource, 
      * <p/>
      * Tip: Instead of iterating over all accountStoreMappings, it might be more convenient (and practical) to execute
      * a search for one or more accountStoreMappings using the {@link #getAccountStoreMappings(java.util.Map)} method
-     * or the {@link #getApplicationAccountStoreMappings(ApplicationAccountStoreMappingCriteria)} instead of this one.
+     * or the {@link #getAccountStoreMappings(ApplicationAccountStoreMappingCriteria)} instead of this one.
      *
      * @return all ApplicationAccountStoreMappings accessible to the application.
      * @see #getAccountStoreMappings(java.util.Map)
-     * @see #getApplicationAccountStoreMappings(ApplicationAccountStoreMappingCriteria)
+     * @see #getAccountStoreMappings(ApplicationAccountStoreMappingCriteria)
      * @since 0.9
      */
     ApplicationAccountStoreMappingList getAccountStoreMappings();
@@ -545,13 +544,13 @@ public interface Application extends AccountStoreHolder<Application>, Resource, 
      * </pre>
      * <p/>
      * This is a type-unsafe alternative to the
-     * {@link #getApplicationAccountStoreMappings(ApplicationAccountStoreMappingCriteria) getApplicationAccountStoreMappings(accountStoreMappingCriteria)}
+     * {@link #getAccountStoreMappings(ApplicationAccountStoreMappingCriteria) getApplicationAccountStoreMappings(accountStoreMappingCriteria)}
      * method, and might be useful when using dynamic languages like Groovy or JRuby.  Users of compiled languages,
      * or those that like IDE-completion, might favor the type-safe method instead.
      *
      * @param queryParams the query parameters to use when performing a request to the collection.
      * @return a paginated list of the application's mapped account stores that match the specified query criteria.
-     * @see #getApplicationAccountStoreMappings(ApplicationAccountStoreMappingCriteria)
+     * @see #getAccountStoreMappings(ApplicationAccountStoreMappingCriteria)
      * @since 0.9
      */
     ApplicationAccountStoreMappingList getAccountStoreMappings(Map<String, Object> queryParams);
@@ -562,7 +561,7 @@ public interface Application extends AccountStoreHolder<Application>, Resource, 
      * The {@link ApplicationAccountStoreMappings ApplicationAccountStoreMappings} utility class is available to help construct
      * the criteria DSL.  For example:
      * <pre>
-     * application.getApplicationAccountStoreMappings(ApplicationAccountStoreMappings.criteria()
+     * application.getAccountStoreMappings(ApplicationAccountStoreMappings.criteria()
      *     .withAccountStore()
      *     .orderByListIndex();
      * </pre>
@@ -572,7 +571,7 @@ public interface Application extends AccountStoreHolder<Application>, Resource, 
      *
      * ...
      *
-     * application.getApplicationAccountStoreMappings(criteria()
+     * application.getAccountStoreMappings(criteria()
      *     .withAccountStore()
      *     .orderByListIndex();
      * </pre>
@@ -581,7 +580,7 @@ public interface Application extends AccountStoreHolder<Application>, Resource, 
      * @return a paginated list of the application's mapped account stores that match the specified query criteria.
      * @since 0.9
      */
-    ApplicationAccountStoreMappingList getApplicationAccountStoreMappings(ApplicationAccountStoreMappingCriteria criteria);
+    ApplicationAccountStoreMappingList getAccountStoreMappings(ApplicationAccountStoreMappingCriteria criteria);
 
     /**
      * Creates a new {@link com.stormpath.sdk.application.ApplicationAccountStoreMapping} for this Application, allowing the associated
