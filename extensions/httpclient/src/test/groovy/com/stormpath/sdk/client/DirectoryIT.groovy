@@ -287,6 +287,38 @@ class DirectoryIT extends ClientIT {
         assertEquals(dir.getAccounts().getSize(), 0)
     }
 
+    @Test
+    void testListSizeWithOffsetLimitedToOneResult() {
+
+        Directory dir = client.instantiate(Directory)
+        dir.name = uniquify("Java SDK: DirectoryIT.testListSize")
+        dir = client.currentTenant.createDirectory(dir)
+        deleteOnTeardown(dir)
+
+        createTenAccounts(dir)
+
+        assertEquals(dir.getAccounts().getSize(), 10)
+
+        def list = dir.getAccounts(Accounts.criteria().limitTo(1).offsetBy(0))
+
+        assert list.size == 1
+        
+    }
+
+    def createTenAccounts(Directory directory) {
+        def rand = new Random()
+        
+        for(def i = 0; i < 10; i++) {
+            Account account01 = client.instantiate(Account)
+            account01 = account01.setGivenName(uniquify('John01'+ rand.nextInt().toString()))
+                    .setSurname('DELETEME')
+                    .setEmail(uniquify("john01deleteme") + "@stormpath.com")
+                    .setPassword('Changeme1!')
+
+            directory.createAccount(account01)
+        }
+    }
+    
     /**
      * @since 1.0.RC4.5
      */
