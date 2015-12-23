@@ -300,9 +300,13 @@ class DirectoryIT extends ClientIT {
         assertEquals(dir.getAccounts().getSize(), 10)
 
         def list = dir.getAccounts(Accounts.criteria().limitTo(1).offsetBy(0))
-
-        assert list.size == 1
         
+        int count = 0
+        for (Account account : list) {
+            count++;
+        }
+
+        assert count == 1
     }
 
     def createTenAccounts(Directory directory) {
